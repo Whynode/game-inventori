@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --shadow-soft-main: 0 4px 20px -4px rgba(15,23,42,0.04);
+  --shadow-soft-hover: 0 8px 30px -6px rgba(15,23,42,0.08);
+  --shadow-soft-primary: 0 2px 10px -3px rgba(37,99,235,0.2);
+}
