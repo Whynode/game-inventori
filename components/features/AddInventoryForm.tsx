@@ -61,7 +61,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-3 text-sm text-rose-600 bg-rose-50 rounded-lg ring-1 ring-rose-200">
+        <div className="p-3 text-sm text-rose-600 bg-rose-50 rounded-[10px] ring-1 ring-rose-200">
           {error}
         </div>
       )}
@@ -75,7 +75,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors hover:bg-slate-100"
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[10px] flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors hover:bg-slate-100"
           >
             <span className={selectedGameId ? "text-slate-900" : "text-slate-500"}>
               {selectedGameId ? games.find(g => g.id === selectedGameId)?.name : "Select a game..."}
@@ -84,7 +84,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
           </button>
           
           {isOpen && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-lg py-1 max-h-60 overflow-auto">
+            <div className="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-[10px] py-1 max-h-60 overflow-auto">
               {games.map(game => (
                 <button
                   key={game.id}
@@ -113,7 +113,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
             type="text"
             required
             placeholder="e.g. ML-MYTHIC-001"
-            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors"
+            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors"
           />
         </div>
       </div>
@@ -126,12 +126,12 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
         {images.length > 0 && (
           <div className="grid grid-cols-4 md:grid-cols-5 gap-3 mb-4">
             {images.map((img, idx) => (
-              <div key={idx} className="relative aspect-square rounded-lg border border-slate-200 overflow-hidden bg-slate-50 group">
+              <div key={idx} className="relative aspect-square rounded-[10px] border border-slate-200 overflow-hidden bg-slate-50 group">
                 <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
                 <button
                   type="button"
                   onClick={() => setImages(prev => prev.filter((_, i) => i !== idx))}
-                  className="absolute top-1 right-1 bg-white/90 text-slate-700 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:text-rose-600 hover:bg-white"
+                  className="absolute top-1 right-1 bg-white/90 text-slate-700 p-1 rounded-[10px] opacity-0 group-hover:opacity-100 transition-opacity hover:text-rose-600 hover:bg-white"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -141,7 +141,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
         )}
 
         {images.length < 20 && (
-          <div className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-slate-200 border-dashed rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer overflow-hidden group">
+          <div className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-slate-200 border-dashed rounded-[10px] bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer overflow-hidden group">
             <div className="flex flex-col items-center justify-center pt-5 pb-6 text-slate-500">
               <UploadCloud className="w-8 h-8 mb-3 text-slate-400 group-hover:text-blue-500 transition-colors" />
               <p className="mb-2 text-sm"><span className="font-semibold text-blue-600">Klik untuk upload</span> atau seret file ke sini</p>
@@ -177,7 +177,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
  required
  rows={4}
  placeholder="Details like rank, skins, win rate..."
- className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors"
+ className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors"
  />
  </div>
 
@@ -193,7 +193,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
  min="0"
  required
  placeholder="e.g. 500000"
- className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors"
+ className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors"
  />
  </div>
 
@@ -208,7 +208,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
  min="0"
  required
  placeholder="e.g. 750000"
- className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors"
+ className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-900 transition-colors"
  />
  </div>
  </div>
@@ -217,7 +217,7 @@ export function AddInventoryForm({ games }: { games: Game[] }) {
  <button
  type="submit"
  disabled={isPending}
- className="inline-flex items-center justify-center px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all"
+ className="inline-flex items-center justify-center px-6 py-2.5 bg-blue-600 text-white font-medium rounded-[10px] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all"
  >
  {isPending ? (
  <>

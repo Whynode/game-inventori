@@ -37,7 +37,7 @@ export function InventoryTable({ inventory, hideActions = false }: InventoryTabl
 
  return (
  <>
- <div className="bg-white rounded-lg overflow-hidden border border-slate-200">
+ <div className="bg-white rounded-[10px] overflow-hidden border border-slate-200">
  <div className="overflow-x-auto">
  <table className="w-full text-left text-sm whitespace-nowrap">
  <thead className="bg-slate-50/50 border-b border-slate-200 text-slate-500 font-medium tracking-wide">
@@ -89,7 +89,7 @@ export function InventoryTable({ inventory, hideActions = false }: InventoryTabl
  <button 
  onClick={() => setSelectedItem(item)}
  title="Buat Caption"
- className="px-3 py-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors flex items-center space-x-1 border border-blue-100/50 "
+ className="px-3 py-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-[10px] transition-colors flex items-center space-x-1 border border-blue-100/50 "
  >
  <Wand2 className="h-3.5 w-3.5" />
  <span className="text-xs font-medium">Buat Caption</span>
@@ -102,13 +102,13 @@ export function InventoryTable({ inventory, hideActions = false }: InventoryTabl
  setSelectedItem(null);
  }}
  title="Tandai Laku"
- className="px-3 py-1.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors flex items-center space-x-1 border border-emerald-100/50 "
+ className="px-3 py-1.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-[10px] transition-colors flex items-center space-x-1 border border-emerald-100/50 "
  >
  <BadgeDollarSign className="h-3.5 w-3.5" />
  <span className="text-xs font-medium">Tandai Laku</span>
  </button>
  )}
- <button className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+ <button className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-[10px] transition-colors">
  <MoreHorizontal className="h-4 w-4" />
  </button>
  </td>

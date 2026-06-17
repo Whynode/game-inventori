@@ -6,14 +6,15 @@ import { InventoryTable } from '../../../../../components/features/InventoryTabl
 
 export const dynamic = 'force-dynamic'
 
-export default async function GameCategoryPage({ params }: { params: { slug: string } }) {
+export default async function GameCategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const supabase = await createClient()
 
   // 1. Fetch game details
   const { data: game, error: gameError } = await supabase
     .from('games')
     .select('id, name')
-    .eq('slug', params.slug)
+    .eq('slug', slug)
     .single()
 
   if (gameError || !game) {
@@ -62,7 +63,7 @@ export default async function GameCategoryPage({ params }: { params: { slug: str
 
       {/* Error state */}
       {invError && (
-        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-600 rounded-lg text-sm">
+        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-600 rounded-[10px] text-sm">
           Failed to load inventory: {invError.message}
         </div>
       )}

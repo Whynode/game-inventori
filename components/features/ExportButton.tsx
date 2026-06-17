@@ -36,7 +36,7 @@ export function ExportButton({ data }: { data: any[] }) {
  return (
  <button 
  onClick={handleExport}
- className="inline-flex items-center space-x-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition-all"
+ className="inline-flex items-center space-x-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-[10px] hover:bg-slate-50 transition-all"
  >
  <Download className="h-4 w-4" strokeWidth={2} />
  <span>Download Laporan (CSV)</span>

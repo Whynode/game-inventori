@@ -20,7 +20,7 @@ export default async function AddInventoryPage() {
  <div className="flex items-center space-x-4">
  <Link 
  href="/dashboard/inventory"
- className="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors "
+ className="p-2 bg-white border border-slate-200 rounded-[10px] text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors "
  >
  <ArrowLeft className="h-5 w-5" />
  </Link>
@@ -31,7 +31,7 @@ export default async function AddInventoryPage() {
  </div>
 
  {/* Form Container */}
- <div className="bg-white p-8 rounded-lg border border-slate-200">
+ <div className="bg-white p-8 rounded-[10px] border border-slate-200">
  <AddInventoryForm games={games || []} />
  </div>
  </div>

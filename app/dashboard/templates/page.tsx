@@ -90,7 +90,7 @@ export default function TemplatesPage() {
  <button
  onClick={handleSave}
  className={`
- inline-flex items-center space-x-2 px-5 py-2.5 text-sm font-medium rounded-lg
+ inline-flex items-center space-x-2 px-5 py-2.5 text-sm font-medium rounded-[10px]
  transition-all duration-300
  ${
  saved
@@ -118,7 +118,7 @@ export default function TemplatesPage() {
  {/* Left Column — Editor */}
  <div className="flex flex-col gap-5 h-full min-h-0">
  {/* Editor Card */}
- <div className="bg-white rounded-lg border border-slate-200 flex flex-col flex-1 min-h-0">
+ <div className="bg-white rounded-[10px] border border-slate-200 flex flex-col flex-1 min-h-0">
  <div className="flex items-center gap-2 px-5 py-3.5 border-b border-slate-200 bg-slate-50/50 shrink-0">
  <FileText className="h-4 w-4 text-slate-400" strokeWidth={1.5} />
  <span className="text-sm font-medium text-slate-600">Editor Template</span>
@@ -131,7 +131,7 @@ export default function TemplatesPage() {
  rows={12}
  placeholder="Tulis template caption di sini..."
  className="
- w-full flex-1 min-h-0 resize-none bg-slate-50/50 border border-slate-200 rounded-lg
+ w-full flex-1 min-h-0 resize-none bg-slate-50/50 border border-slate-200 rounded-[10px]
  px-4 py-3.5 text-sm text-slate-800 leading-relaxed font-normal
  placeholder:text-slate-400
  focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400
@@ -142,7 +142,7 @@ export default function TemplatesPage() {
  </div>
 
  {/* Dynamic Tags */}
- <div className="bg-white rounded-lg border border-slate-200 overflow-hidden shrink-0">
+ <div className="bg-white rounded-[10px] border border-slate-200 overflow-hidden shrink-0">
  <div className="flex items-center gap-2 px-5 py-3.5 border-b border-slate-200 bg-slate-50/50">
  <Tag className="h-4 w-4 text-slate-400" strokeWidth={1.5} />
  <span className="text-sm font-medium text-slate-600">Tag Dinamis</span>
@@ -155,7 +155,7 @@ export default function TemplatesPage() {
  key={tag.label}
  onClick={() => insertTag(tag.label)}
  className={`
- inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium
+ inline-flex items-center gap-1.5 px-3.5 py-2 rounded-[10px] text-xs font-medium
  bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100
  transition-colors duration-200
  active:scale-95
@@ -176,12 +176,12 @@ export default function TemplatesPage() {
 
  {/* Right Column — Live Preview */}
  <div className="h-full min-h-0">
- <div className="bg-white rounded-lg border border-slate-200 flex flex-col h-full min-h-0">
+ <div className="bg-white rounded-[10px] border border-slate-200 flex flex-col h-full min-h-0">
  <div className="flex items-center gap-2 px-5 py-3.5 border-b border-slate-200 bg-slate-50/50 shrink-0">
  <Eye className="h-4 w-4 text-slate-400" strokeWidth={1.5} />
  <span className="text-sm font-medium text-slate-600">Preview Langsung</span>
  <span className="ml-auto flex items-center gap-1 text-xs text-emerald-500 font-medium">
- <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+ <span className="h-1.5 w-1.5 rounded-[10px] bg-emerald-400 animate-pulse" />
  Real-time
  </span>
  </div>
@@ -190,15 +190,15 @@ export default function TemplatesPage() {
  <div className="p-5 flex-1 overflow-y-auto">
  <div className="mx-auto max-w-sm">
  {/* Social media post frame */}
- <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+ <div className="bg-white rounded-[10px] border border-slate-200 overflow-hidden">
  {/* Post header */}
  <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-200">
- <div className="h-9 w-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center ">
+ <div className="h-9 w-9 rounded-[10px] bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center ">
  <span className="text-white text-xs font-bold">GI</span>
  </div>
  <div className="flex-1 min-w-0">
  <p className="text-sm font-semibold text-slate-900 truncate">
- GameInventory
+ Ferryshop
  </p>
  <p className="text-xs text-slate-400">Baru saja</p>
  </div>

@@ -31,26 +31,38 @@ interface AnalyticsChartsProps {
   gameDistributionData: GameDistributionData[]
 }
 
-const formatCurrency = (value: number) => {
+const formatYAxisNumber = (value: number) => {
+  if (value === 0) return '0'
   if (value >= 1000000) {
-    return `Rp ${(value / 1000000).toFixed(1)}M`
+    const formatted = (value / 1000000).toFixed(1)
+    return `${formatted.replace(/\.0$/, '')}M`
   }
   if (value >= 1000) {
-    return `Rp ${(value / 1000).toFixed(0)}K`
+    return `${(value / 1000).toFixed(0)}K`
   }
-  return `Rp ${value}`
+  return `${value}`
+}
+
+const formatDateTick = (dateStr: string) => {
+  try {
+    const d = new Date(dateStr)
+    if (!isNaN(d.getTime())) {
+      return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })
+    }
+  } catch (e) {}
+  return dateStr
 }
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-4 rounded-lg border border-slate-200">
+      <div className="bg-white p-4 rounded-[10px] border border-slate-200">
         <p className="text-sm font-medium text-slate-500 mb-2">{label}</p>
         <div className="space-y-1">
           {payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center gap-2">
               <div
-                className="w-2.5 h-2.5 rounded-full"
+                className="w-2.5 h-2.5 rounded-[10px]"
                 style={{ backgroundColor: entry.color || entry.payload.fill }}
               />
               <span className="text-sm font-semibold text-slate-700">
@@ -83,7 +95,7 @@ const MOCK_REVENUE_DATA = Array.from({ length: 30 }).map((_, i) => {
   const d = new Date()
   d.setDate(d.getDate() - (29 - i))
   return {
-    date: d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }),
+    date: d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }),
     revenue: Math.floor(Math.random() * 5000000) + 1000000,
     profit: Math.floor(Math.random() * 2000000) + 500000
   }
@@ -106,7 +118,7 @@ export function AnalyticsCharts({ revenueData, gameDistributionData }: Analytics
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Column 1: Revenue Trends (Spans 2 columns on large screens) */}
-      <div className="lg:col-span-2 bg-white p-6 md:p-8 rounded-lg border border-slate-200">
+      <div className="lg:col-span-2 bg-white p-6 md:p-8 rounded-[10px] border border-slate-200">
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h3 className="text-lg font-semibold text-slate-900">Tren Pendapatan & Profit</h3>
@@ -116,11 +128,11 @@ export function AnalyticsCharts({ revenueData, gameDistributionData }: Analytics
           </div>
           <div className="flex items-center gap-4 text-sm font-medium">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-emerald-500" />
+              <div className="w-3 h-3 rounded-[10px] bg-emerald-500" />
               <span className="text-slate-600">Revenue</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-blue-500" />
+              <div className="w-3 h-3 rounded-[10px] bg-blue-500" />
               <span className="text-slate-600">Profit</span>
             </div>
           </div>
@@ -148,14 +160,16 @@ export function AnalyticsCharts({ revenueData, gameDistributionData }: Analytics
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: '#64748b', fontSize: 12 }}
-                dy={10}
+                tickFormatter={formatDateTick}
+                tickMargin={10}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: '#64748b', fontSize: 12 }}
-                tickFormatter={formatCurrency}
-                dx={-10}
+                tickFormatter={formatYAxisNumber}
+                tickMargin={10}
+                width={60}
               />
               <Tooltip content={<CustomTooltip />} />
               <Area
@@ -184,7 +198,7 @@ export function AnalyticsCharts({ revenueData, gameDistributionData }: Analytics
       </div>
 
       {/* Column 2: Game Sales Bar Chart */}
-      <div className="bg-white p-6 md:p-8 rounded-lg border border-slate-200">
+      <div className="bg-white p-6 md:p-8 rounded-[10px] border border-slate-200">
         <div className="mb-8">
           <h3 className="text-lg font-semibold text-slate-900">Total Penjualan per Game</h3>
           <p className="text-sm text-slate-500 mt-1">Volume akun terjual</p>
@@ -202,13 +216,14 @@ export function AnalyticsCharts({ revenueData, gameDistributionData }: Analytics
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: '#64748b', fontSize: 12 }}
-                dy={10}
+                tickMargin={10}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: '#64748b', fontSize: 12 }}
-                dx={-10}
+                tickMargin={10}
+                width={60}
               />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="value" name="Terjual" fill="#3b82f6" radius={[4, 4, 0, 0]} />
@@ -218,7 +233,7 @@ export function AnalyticsCharts({ revenueData, gameDistributionData }: Analytics
       </div>
 
       {/* Column 3: Game Sales Distribution (Donut) */}
-      <div className="bg-white p-6 md:p-8 rounded-lg border border-slate-200">
+      <div className="bg-white p-6 md:p-8 rounded-[10px] border border-slate-200">
         <div className="mb-8">
           <h3 className="text-lg font-semibold text-slate-900">Distribusi Penjualan</h3>
           <p className="text-sm text-slate-500 mt-1">Persentase berdasarkan game</p>

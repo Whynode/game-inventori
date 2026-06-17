@@ -12,12 +12,16 @@ import {
  ChevronLeft,
  ChevronRight,
  LogOut,
+ Wallet,
+ FileSpreadsheet,
 } from 'lucide-react'
 import { logout } from '../../actions/logout'
 
 const navItems = [
  { label: 'Ringkasan', icon: LayoutDashboard, href: '/dashboard' },
  { label: 'Stok Akun', icon: Package, href: '/dashboard/inventory' },
+ { label: 'Kelola Rekening', icon: Wallet, href: '/dashboard/accounts' },
+ { label: 'Buku Kas / Ledger', icon: FileSpreadsheet, href: '/dashboard/ledger' },
  { label: 'Analitik Bisnis', icon: BarChart3, href: '/dashboard/analytics' },
  { label: 'Template Promosi', icon: FileText, href: '/dashboard/templates' },
  { label: 'Pengaturan', icon: Settings, href: '/dashboard/settings' },
@@ -43,7 +47,7 @@ export default function Sidebar() {
  ${isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}
  `}
  >
- GameInventory
+ Ferryshop
  </span>
 
  {/* Toggle Button */}
@@ -51,7 +55,7 @@ export default function Sidebar() {
  onClick={() => setIsCollapsed(!isCollapsed)}
  className={`
  absolute -right-3 top-5 z-10
- h-6 w-6 rounded-full bg-white border border-slate-200
+ h-6 w-6 rounded-[10px] bg-white border border-slate-200
  flex items-center justify-center
  text-slate-400 hover:text-slate-700
  transition-all duration-200 ease-in-out
@@ -80,7 +84,7 @@ export default function Sidebar() {
  href={item.href}
  title={isCollapsed ? item.label : undefined}
  className={`
- group relative flex items-center gap-3 rounded-lg px-3 py-2.5
+ group relative flex items-center gap-3 rounded-[10px] px-3 py-2.5
  transition-all duration-200 ease-in-out
  ${
  isActive
@@ -91,7 +95,7 @@ export default function Sidebar() {
  >
  {/* Active indicator bar */}
  {isActive && (
- <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-[3px] rounded-r-full bg-blue-600" />
+ <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-[3px] rounded-[10px] bg-blue-600" />
  )}
 
  <item.icon
@@ -124,7 +128,7 @@ export default function Sidebar() {
  type="submit"
  title={isCollapsed ? 'Logout' : undefined}
  className="
- w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
+ w-full flex items-center gap-3 px-3 py-2.5 rounded-[10px]
  text-slate-400 hover:bg-rose-50 hover:text-rose-600
  transition-all duration-200 ease-in-out
  "

@@ -1,6 +1,7 @@
 import { createClient } from '../../../lib/supabase/server'
 import { AnalyticsCharts } from '../../../components/features/AnalyticsCharts'
 import { TrendingUp, Award, Coins, Activity } from 'lucide-react'
+import { formatRupiah, formatDate } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,7 +47,7 @@ export default async function AnalyticsPage() {
       // Timeline Stats (group by date)
       if (item.sold_at) {
         const dateObj = new Date(item.sold_at)
-        const dateStr = dateObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })
+        const dateStr = formatDate(item.sold_at, false)
         
         if (!dateSalesMap[dateStr]) {
           dateSalesMap[dateStr] = { revenue: 0, profit: 0 }
@@ -81,14 +82,7 @@ export default async function AnalyticsPage() {
     value: gameSalesMap[name]
   }))
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(amount)
-  }
+
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
@@ -106,38 +100,38 @@ export default async function AnalyticsPage() {
       </div>
 
       {error && (
-        <div className="p-4 bg-rose-50 text-rose-600 rounded-lg text-sm border border-rose-200">
+        <div className="p-4 bg-rose-50 text-rose-600 rounded-[10px] text-sm border border-rose-200">
           Failed to load analytics: {error.message}
         </div>
       )}
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg border border-slate-200">
+        <div className="bg-white p-4 rounded-[10px] border border-slate-200">
           <div className="flex items-center gap-2 mb-2">
             <Coins className="h-4 w-4 text-slate-400" strokeWidth={2} />
             <span className="text-sm font-medium text-slate-500">Total Pendapatan</span>
           </div>
-          <h3 className="text-xl font-bold text-slate-900">{formatCurrency(totalRevenue)}</h3>
+          <h3 className="text-xl font-bold text-slate-900">{formatRupiah(totalRevenue)}</h3>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border border-slate-200">
+        <div className="bg-white p-4 rounded-[10px] border border-slate-200">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="h-4 w-4 text-slate-400" strokeWidth={2} />
             <span className="text-sm font-medium text-slate-500">Keuntungan Bersih</span>
           </div>
-          <h3 className="text-xl font-bold text-slate-900">{formatCurrency(totalProfit)}</h3>
+          <h3 className="text-xl font-bold text-slate-900">{formatRupiah(totalProfit)}</h3>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border border-slate-200">
+        <div className="bg-white p-4 rounded-[10px] border border-slate-200">
           <div className="flex items-center gap-2 mb-2">
             <Activity className="h-4 w-4 text-slate-400" strokeWidth={2} />
             <span className="text-sm font-medium text-slate-500">Rata-rata Harga Laku</span>
           </div>
-          <h3 className="text-xl font-bold text-slate-900">{formatCurrency(averageSaleValue)}</h3>
+          <h3 className="text-xl font-bold text-slate-900">{formatRupiah(averageSaleValue)}</h3>
         </div>
 
-        <div className="bg-white p-4 rounded-lg border border-slate-200">
+        <div className="bg-white p-4 rounded-[10px] border border-slate-200">
           <div className="flex items-center gap-2 mb-2">
             <Award className="h-4 w-4 text-slate-400" strokeWidth={2} />
             <span className="text-sm font-medium text-slate-500">Game Paling Laris</span>

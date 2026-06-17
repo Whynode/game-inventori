@@ -1,0 +1,57 @@
+'use server'
+
+import { createClient } from '@/lib/supabase/server'
+import { revalidatePath } from 'next/cache'
+import { PurchasePaymentStatus } from '@/types/database'
+
+export async function purchaseStock(data: {
+  category: string
+  name: string
+  account_details: string
+  username?: string
+  password?: string
+  capital_price: number
+  post_price: number
+  current_price: number
+  seller_info?: string
+  internal_notes?: string
+  purchase_payment_status: PurchasePaymentStatus
+  payment_account_id?: string | null
+}): Promise<{ success: boolean; stockId?: string; error: string | null }> {
+  try {
+    const supabase = await createClient()
+    
+    const { data: { session } } = await supabase.auth.getSession()
+    const adminId = session?.user?.id || null
+
+    if (data.purchase_payment_status === 'LUNAS' && !data.payment_account_id) {
+      return { success: false, error: 'Target Account must be selected for LUNAS payments' }
+    }
+
+    const { data: stockId, error } = await supabase.rpc('process_stock_purchase', {
+      p_category: data.category,
+      p_name: data.name,
+      p_account_details: data.account_details || null,
+      p_username: data.username || null,
+      p_password: data.password || null,
+      p_capital_price: data.capital_price,
+      p_post_price: data.post_price,
+      p_current_price: data.current_price,
+      p_seller_info: data.seller_info || null,
+      p_internal_notes: data.internal_notes || null,
+      p_purchase_payment_status: data.purchase_payment_status,
+      p_payment_account_id: data.payment_account_id || null,
+      p_admin_id: adminId
+    })
+
+    if (error) throw error
+
+    revalidatePath('/dashboard/inventory')
+    revalidatePath('/dashboard/purchases')
+    
+    return { success: true, stockId: stockId as string, error: null }
+  } catch (error: any) {
+    console.error('Error purchasing stock:', error)
+    return { success: false, error: error.message || 'An unexpected error occurred' }
+  }
+}
