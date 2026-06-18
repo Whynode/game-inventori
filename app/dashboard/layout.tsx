@@ -6,16 +6,24 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
  <div className="flex h-screen overflow-hidden">
  <Sidebar />
 
- {/* Main Content Area */}
- <div className="flex-1 flex flex-col overflow-hidden transition-all duration-300">
- {/* Header */}
- <header className="h-16 bg-gradient-to-r from-white via-blue-50/40 to-slate-50 border-b border-slate-200 shrink-0" />
+  {/* Main Content Area */}
+  <div className="flex-1 flex flex-col overflow-hidden transition-all duration-300">
+  {/* Header */}
+  <header className="h-16 bg-white border-b border-slate-200 shadow-sm shrink-0 flex items-center justify-between px-6 py-3">
+    <div className="flex items-center">
+      {/* Reserved for far-left alignment (e.g. mobile toggle) */}
+    </div>
+    
+    <div className="flex items-center">
+      {/* Profile completely removed for extreme minimalism */}
+    </div>
+  </header>
 
- {/* Scrollable Main */}
- <main className="flex-1 overflow-y-auto bg-slate-50 p-8 transition-all duration-300">
- {children}
- </main>
- </div>
+  {/* Scrollable Main */}
+  <main className="flex-1 overflow-y-auto bg-white p-8 transition-all duration-300">
+  {children}
+  </main>
+  </div>
  </div>
  )
 }

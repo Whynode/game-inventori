@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, Fragment } from 'react'
 import { LedgerWithRelations } from '@/types/database'
 import { ArrowUpRight, ArrowDownLeft, Eye, Edit2, Trash2, Wallet } from 'lucide-react'
 import { formatRupiah, formatDate } from '@/lib/utils'
@@ -9,6 +10,8 @@ interface LedgerTableProps {
 }
 
 export function LedgerTable({ entries }: LedgerTableProps) {
+  const [expandedRowId, setExpandedRowId] = useState<string | null>(null)
+
   const formatTxType = (type: string) => {
     switch (type) {
       case 'PAYMENT_IN': return 'Pembayaran Masuk'
@@ -37,23 +40,23 @@ export function LedgerTable({ entries }: LedgerTableProps) {
   }
 
   return (
-    <div className="w-full bg-white border border-slate-100 rounded-md shadow-sm overflow-hidden">
-      <table className="w-full table-fixed divide-y divide-slate-100">
-        <thead className="bg-slate-50/50">
+    <div className="w-full overflow-x-auto border border-slate-200 rounded-xl bg-white">
+      <table className="w-full table-fixed whitespace-nowrap">
+        <thead className="bg-blue-600 border-b border-blue-700">
           <tr>
-            <th className="py-2.5 px-3 text-left text-xs font-semibold text-slate-800 border-b border-slate-100 w-[5%]">No</th>
-            <th className="py-2.5 px-3 text-left text-xs font-semibold text-slate-800 border-b border-slate-100 w-[15%]">Tanggal</th>
-            <th className="py-2.5 px-3 text-left text-xs font-semibold text-slate-800 border-b border-slate-100 w-[17%]">Tipe Transaksi</th>
-            <th className="py-2.5 px-3 text-center text-xs font-semibold text-slate-800 border-b border-slate-100 w-[8%]">Referensi</th>
-            <th className="py-2.5 px-3 text-left text-xs font-semibold text-slate-800 border-b border-slate-100 w-[20%]">Nominal</th>
-            <th className="py-2.5 px-3 text-left text-xs font-semibold text-slate-800 border-b border-slate-100 w-[25%]">Catatan</th>
-            <th className="py-2.5 px-3 text-left text-xs font-semibold text-slate-800 border-b border-slate-100 w-[10%]">Aksi</th>
+            <th className="py-2 px-3 text-center text-[11px] font-semibold text-white uppercase tracking-wide w-12">No</th>
+            <th className="py-2 px-3 text-left text-[11px] font-semibold text-white uppercase tracking-wide w-32">Tanggal</th>
+            <th className="py-2 px-3 text-left text-[11px] font-semibold text-white uppercase tracking-wide w-40">Tipe Transaksi</th>
+            <th className="py-2 px-3 text-center text-[11px] font-semibold text-white uppercase tracking-wide w-16">Ref</th>
+            <th className="py-2 px-3 text-left text-[11px] font-semibold text-white uppercase tracking-wide w-40">Nominal</th>
+            <th className="py-2 px-3 text-left text-[11px] font-semibold text-white uppercase tracking-wide">Catatan</th>
+            <th className="py-2 px-3 text-right text-[11px] font-semibold text-white uppercase tracking-wide w-28">Aksi</th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-slate-100">
+        <tbody className="divide-y divide-slate-50">
           {entries.length === 0 ? (
             <tr>
-              <td colSpan={7} className="px-3 py-12 text-center text-sm text-slate-500">
+              <td colSpan={7} className="px-4 py-12 text-center text-sm text-slate-500">
                 <div className="flex flex-col items-center justify-center">
                   <span className="text-slate-400 mb-2 text-2xl">📊</span>
                   <span className="font-semibold text-slate-900">Belum ada catatan transaksi</span>
@@ -67,36 +70,37 @@ export function LedgerTable({ entries }: LedgerTableProps) {
               const accountName = entry.account?.name || '-'
 
               return (
-                <tr key={entry.id} className="hover:bg-slate-50/30 transition-colors group">
-                  <td className="py-2.5 px-3 text-sm text-slate-600">
-                    {index + 1}
-                  </td>
-                  <td className="py-2.5 px-3 text-sm text-slate-600">
+                <Fragment key={entry.id}>
+                  <tr 
+                    onClick={() => setExpandedRowId(expandedRowId === entry.id ? null : entry.id)}
+                    className={`hover:bg-slate-50/50 transition-colors group cursor-pointer ${expandedRowId === entry.id ? 'bg-slate-50/50' : ''}`}
+                  >
+                    <td className="py-2 px-3 text-center text-[13px] text-slate-600 truncate">
+                      {index + 1}
+                    </td>
+                  <td className="py-2 px-3 text-[13px] text-slate-600 truncate" title={formattedDate}>
                     {formattedDate}
                   </td>
-                  <td className="py-2.5 px-3">
-                    <span className={`inline-flex px-2 py-1 rounded-md text-xs font-medium ${
+                  <td className="py-2 px-3 truncate">
+                    <span className={`inline-flex px-2 py-0.5 rounded-md text-[11px] font-medium truncate ${
                       isPositive ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'
-                    }`}>
+                    }`} title={formatTxType(entry.transaction_type)}>
                       {formatTxType(entry.transaction_type)}
                     </span>
                   </td>
-                  <td className="py-2.5 px-3">
+                  <td className="py-2 px-3 truncate">
                     <div className="flex justify-center items-center">
                       {getAccountIcon(entry.account)}
                     </div>
                   </td>
-                  <td className="py-2.5 px-3 text-sm font-semibold text-slate-900 tracking-tight">
+                  <td className="py-2 px-3 text-[13px] font-semibold text-slate-900 tracking-tight truncate">
                     {isPositive ? '+' : ''} {formatRupiah(Number(entry.amount))}
                   </td>
-                  <td className="py-2.5 px-3 text-sm text-slate-600">
+                  <td className="py-2 px-3 text-[13px] text-slate-600 truncate" title={entry.description || ''}>
                     {entry.description || '-'}
                   </td>
-                  <td className="py-2.5 px-3">
-                    <div className="flex flex-row items-center justify-start gap-1.5">
-                      <button className="w-8 h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                        <Eye className="w-4 h-4" />
-                      </button>
+                  <td className="py-2 px-3 truncate">
+                    <div className="flex flex-row items-center justify-end gap-1.5" onClick={(e) => e.stopPropagation()}>
                       <button className="w-8 h-8 flex items-center justify-center rounded-md border border-slate-200 text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors">
                         <Edit2 className="w-4 h-4" />
                       </button>
@@ -106,6 +110,17 @@ export function LedgerTable({ entries }: LedgerTableProps) {
                     </div>
                   </td>
                 </tr>
+                {expandedRowId === entry.id && (
+                  <tr className="bg-slate-50/50 border-b border-slate-100/50">
+                    <td colSpan={7} className="py-4 px-4 whitespace-normal">
+                      <div className="text-[13px] text-slate-700 bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                        <span className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-1">Catatan Lengkap</span>
+                        <p className="whitespace-pre-wrap leading-relaxed">{entry.description || 'Tidak ada catatan untuk transaksi ini.'}</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                </Fragment>
               )
             })
           )}
