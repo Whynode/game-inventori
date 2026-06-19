@@ -19,8 +19,10 @@ export default async function InventoryPage() {
   const categories = categoriesResult.data || []
 
   return (
-    <div className="p-6 md:p-8 max-w-[1600px] mx-auto min-h-screen bg-gray-50/50">
-      <InventoryHeader categories={categories} />
+    <div className="max-w-[1600px] mx-auto h-[calc(100vh-5rem)] flex flex-col overflow-hidden bg-gray-50/50 p-4 md:p-6 pb-4">
+      <div className="flex-shrink-0">
+        <InventoryHeader categories={categories} />
+      </div>
 
       {error ? (
         <div className="bg-red-50 text-red-700 p-6 rounded-[10px] border border-red-100 flex items-start shadow-sm">

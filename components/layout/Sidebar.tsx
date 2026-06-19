@@ -14,6 +14,7 @@ import {
   LogOut,
   Wallet,
   FileSpreadsheet,
+  Mail,
 } from 'lucide-react'
 import { logout } from '../../actions/logout'
 
@@ -22,6 +23,7 @@ const navItems = [
   { label: 'Stok Akun', icon: Package, href: '/dashboard/inventory' },
   { label: 'Kelola Rekening', icon: Wallet, href: '/dashboard/accounts' },
   { label: 'Buku Kas / Ledger', icon: FileSpreadsheet, href: '/dashboard/ledger' },
+  { label: 'FerryMail', icon: Mail, href: '/dashboard/ferrymail' },
   { label: 'Analitik Bisnis', icon: BarChart3, href: '/dashboard/analytics' },
   { label: 'Template Promosi', icon: FileText, href: '/dashboard/templates' },
   { label: 'Pengaturan', icon: Settings, href: '/dashboard/settings' },
@@ -56,7 +58,7 @@ export default function Sidebar() {
           className={`
             absolute -right-3 top-1/2 -translate-y-1/2 z-10
             h-6 w-6 rounded-full bg-white border border-slate-200 shadow-sm
-            flex items-center justify-center
+            flex items-center justify-center p-0
             text-blue-600 hover:text-blue-800
             transition-all duration-200 ease-in-out
           `}
