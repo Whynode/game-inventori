@@ -60,10 +60,15 @@ export async function getFinancialSummary(): Promise<{ data: { omzet: number; pr
     const { data: deals, error } = await supabase
       .from('deals')
       .select(`
-        deal_price,
-        remaining_balance,
+        total_deal_price,
+        total_paid,
         status,
-        stocks (capital_price)
+        deal_items (
+          price,
+          stocks (
+            capital_price
+          )
+        )
       `)
       .in('status', ['BOOKED', 'LIMITED_ACCESS', 'PAID', 'COMPLETED'])
 
@@ -74,12 +79,16 @@ export async function getFinancialSummary(): Promise<{ data: { omzet: number; pr
     let piutang = 0
 
     deals.forEach((deal: any) => {
-      omzet += Number(deal.deal_price || 0)
-      piutang += Number(deal.remaining_balance || 0)
+      omzet += Number(deal.total_deal_price || 0)
+      piutang += (Number(deal.total_deal_price || 0) - Number(deal.total_paid || 0))
       
-      // Calculate capital only if there is a related stock
-      if (deal.stocks && deal.stocks.capital_price) {
-        capital += Number(deal.stocks.capital_price || 0)
+      // Calculate capital only if there are related stock items
+      if (deal.deal_items && Array.isArray(deal.deal_items)) {
+        deal.deal_items.forEach((item: any) => {
+          if (item.stocks && item.stocks.capital_price) {
+            capital += Number(item.stocks.capital_price || 0)
+          }
+        })
       }
     })
 
@@ -105,7 +114,7 @@ export async function getRecentLedger(limit = 5): Promise<{ data: any[]; error: 
       .select(`
         *,
         accounts (name),
-        public_users (full_name)
+        users (full_name)
       `)
       .order('created_at', { ascending: false })
       .limit(limit)

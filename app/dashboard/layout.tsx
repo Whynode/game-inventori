@@ -3,7 +3,7 @@ import Sidebar from '../../components/layout/Sidebar'
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
  return (
- <div className="flex h-screen overflow-hidden">
+ <div className="flex h-screen overflow-hidden bg-slate-50">
  <Sidebar />
 
   {/* Main Content Area */}
@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   </header>
 
   {/* Scrollable Main */}
-  <main className="flex-1 overflow-y-auto bg-white p-8 transition-all duration-300">
+  <main className="flex-1 overflow-y-auto bg-slate-50 p-8 transition-all duration-300">
   {children}
   </main>
   </div>

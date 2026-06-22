@@ -35,7 +35,7 @@ export interface Account {
   id: string; // UUID
   name: string;
   account_number: string | null;
-  image_url: string | null;
+  image_url?: string | null;
   balance: number;
   is_active: boolean;
   created_at: string;

@@ -13,7 +13,7 @@ export async function getAccounts(): Promise<{ data: Account[] | null; error: st
       .order('created_at', { ascending: false })
     
     if (error) throw error
-    return { data: data as Account[], error: null }
+    return { data: data as unknown as Account[], error: null }
   } catch (error: any) {
     console.error('Error fetching accounts:', error)
     return { data: null, error: error.message || 'An unexpected error occurred' }
@@ -25,7 +25,13 @@ export async function createAccount(accountData: Partial<Account>): Promise<{ da
     const supabase = await createClient()
     const { data, error } = await supabase
       .from('accounts')
-      .insert(accountData)
+      .insert({
+        name: accountData.name || '',
+        type: 'BANK',
+        account_number: accountData.account_number || null,
+        balance: accountData.balance ?? 0,
+        is_active: accountData.is_active ?? true
+      })
       .select()
       .single()
     
@@ -33,7 +39,7 @@ export async function createAccount(accountData: Partial<Account>): Promise<{ da
     
     revalidatePath('/dashboard/finance', 'page')
     revalidatePath('/dashboard/accounts', 'page')
-    return { data: data as Account, error: null }
+    return { data: data as unknown as Account, error: null }
   } catch (error: any) {
     console.error('Error creating account:', error)
     return { data: null, error: error.message || 'An unexpected error occurred' }
@@ -50,7 +56,11 @@ export async function transferFunds(
     const supabase = await createClient()
     
     const { data: { session } } = await supabase.auth.getSession()
-    const adminId = session?.user?.id || null
+    const adminId = session?.user?.id
+
+    if (!adminId) {
+      return { success: false, error: 'Sesi admin tidak ditemukan. Silakan login kembali.' }
+    }
 
     if (amount <= 0) {
       return { success: false, error: 'Nominal transfer harus lebih besar dari 0' }
@@ -81,4 +91,3 @@ export async function transferFunds(
     return { success: false, error: error.message || 'Gagal memproses transfer' }
   }
 }
-

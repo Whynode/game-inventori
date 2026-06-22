@@ -77,16 +77,16 @@ export function CreateDealModal({ isOpen, onClose }: CreateDealModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/50 backdrop-blur-sm">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" 
+        className="absolute inset-0 transition-opacity" 
         onClick={!isPending ? onClose : undefined}
       />
       
-      {/* Modal */}
-      <div className="relative w-full max-w-xl bg-white rounded-[10px] shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-purple-600 text-white">
+      {/* Drawer */}
+      <div className="relative h-full w-full max-w-md bg-white shadow-2xl overflow-hidden flex flex-col animate-in slide-in-from-right duration-300">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-slate-50 text-slate-900 shrink-0">
           <div className="flex items-center gap-2">
             <FileText className="w-5 h-5" />
             <h2 className="text-lg font-bold">Buat Transaksi Baru (Deal)</h2>
@@ -94,13 +94,13 @@ export function CreateDealModal({ isOpen, onClose }: CreateDealModalProps) {
           <button 
             onClick={onClose}
             disabled={isPending}
-            className="p-1.5 text-white/80 hover:text-white hover:bg-white/10 rounded-[10px] transition-colors disabled:opacity-50"
+            className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-[10px] transition-colors disabled:opacity-50"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
         
-        <div className="p-6">
+        <div className="p-6 overflow-y-auto flex-1">
           {errorMsg && (
             <div className="mb-5 p-4 bg-red-50 text-red-700 text-sm font-medium rounded-[10px] border border-red-100 flex items-start">
               <span className="mr-2">⚠️</span>

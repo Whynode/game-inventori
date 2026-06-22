@@ -6,27 +6,79 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
   Package,
-  BarChart3,
-  FileText,
-  Settings,
-  ChevronLeft,
-  ChevronRight,
-  LogOut,
+  ShoppingBag,
+  ShoppingCart,
+  RefreshCw,
   Wallet,
   FileSpreadsheet,
   Mail,
+  TrendingUp,
+  Activity,
+  AlertTriangle,
+  FileText,
+  Settings,
+  Shield,
+  ChevronLeft,
+  ChevronRight,
+  LogOut,
 } from 'lucide-react'
 import { logout } from '../../actions/logout'
 
-const navItems = [
-  { label: 'Ringkasan', icon: LayoutDashboard, href: '/dashboard' },
-  { label: 'Stok Akun', icon: Package, href: '/dashboard/inventory' },
-  { label: 'Kelola Rekening', icon: Wallet, href: '/dashboard/accounts' },
-  { label: 'Buku Kas / Ledger', icon: FileSpreadsheet, href: '/dashboard/ledger' },
-  { label: 'FerryMail', icon: Mail, href: '/dashboard/ferrymail' },
-  { label: 'Analitik Bisnis', icon: BarChart3, href: '/dashboard/analytics' },
-  { label: 'Template Promosi', icon: FileText, href: '/dashboard/templates' },
-  { label: 'Pengaturan', icon: Settings, href: '/dashboard/settings' },
+const navGroups = [
+  {
+    title: 'Utama',
+    items: [
+      { label: 'Command Center', icon: LayoutDashboard, href: '/dashboard' },
+    ]
+  },
+  {
+    title: 'Manajemen Stok',
+    items: [
+      { label: 'Daftar Stok', icon: Package, href: '/dashboard/inventory' },
+      { label: 'Pembelian Stok', icon: ShoppingBag, href: '/dashboard/purchases' },
+    ]
+  },
+  {
+    title: 'Transaksi & Deal',
+    items: [
+      { label: 'Daftar Deal', icon: ShoppingCart, href: '/dashboard/deals' },
+      { label: 'Tukar Tambah', icon: RefreshCw, href: '/dashboard/trade-in' },
+    ]
+  },
+  {
+    title: 'Keuangan & Treasury',
+    items: [
+      { label: 'Kelola Rekening', icon: Wallet, href: '/dashboard/accounts' },
+      { label: 'Buku Kas / Ledger', icon: FileSpreadsheet, href: '/dashboard/ledger' },
+    ]
+  },
+  {
+    title: 'FerryMail',
+    items: [
+      { label: 'Inbox', icon: Mail, href: '/dashboard/ferrymail' },
+    ]
+  },
+  {
+    title: 'Laporan Keuangan',
+    items: [
+      { label: 'Laba Rugi', icon: TrendingUp, href: '/dashboard/reports/profit-loss' },
+      { label: 'Arus Kas', icon: Activity, href: '/dashboard/reports/cashflow' },
+    ]
+  },
+  {
+    title: 'Operasional',
+    items: [
+      { label: 'Problem Cases', icon: AlertTriangle, href: '/dashboard/problem-cases' },
+      { label: 'Template Promosi', icon: FileText, href: '/dashboard/templates' },
+    ]
+  },
+  {
+    title: 'Sistem',
+    items: [
+      { label: 'Pengaturan', icon: Settings, href: '/dashboard/settings' },
+      { label: 'Audit Log', icon: Shield, href: '/dashboard/audit-log' },
+    ]
+  }
 ]
 
 export default function Sidebar() {
@@ -37,7 +89,7 @@ export default function Sidebar() {
     <aside
       className={`
         ${isCollapsed ? 'w-20' : 'w-64'}
-        relative flex flex-col bg-blue-600
+        relative flex flex-col bg-white border-r border-slate-200
         transition-all duration-300 ease-in-out shrink-0
       `}
     >
@@ -45,7 +97,7 @@ export default function Sidebar() {
       <div className="h-[88px] px-6 flex items-center relative">
         <span
           className={`
-            font-bold text-white text-2xl tracking-tight whitespace-nowrap transition-opacity duration-300
+            font-bold text-slate-900 text-2xl tracking-tight whitespace-nowrap transition-opacity duration-300
             ${isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'}
           `}
         >
@@ -59,7 +111,7 @@ export default function Sidebar() {
             absolute -right-3 top-1/2 -translate-y-1/2 z-10
             h-6 w-6 rounded-full bg-white border border-slate-200 shadow-sm
             flex items-center justify-center p-0
-            text-blue-600 hover:text-blue-800
+            text-slate-500 hover:text-slate-800
             transition-all duration-200 ease-in-out
           `}
           aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
@@ -73,65 +125,76 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-4 pl-3 pr-0 space-y-1 overflow-hidden">
-        {navItems.map((item) => {
-          const isActive =
-            item.href === '/dashboard'
-              ? pathname === '/dashboard'
-              : pathname.startsWith(item.href)
+      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-6 overflow-x-hidden hide-scrollbar">
+        {navGroups.map((group, idx) => (
+          <div key={idx} className="space-y-1">
+            {/* Group Title */}
+            {!isCollapsed && (
+              <h3 className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                {group.title}
+              </h3>
+            )}
+            {/* Items */}
+            <div className="space-y-1">
+              {group.items.map((item) => {
+                const isActive =
+                  item.href === '/dashboard'
+                    ? pathname === '/dashboard'
+                    : pathname.startsWith(item.href)
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              title={isCollapsed ? item.label : undefined}
-              className={`
-                group flex items-center gap-3 px-4 py-2.5
-                transition-all duration-200 ease-in-out
-                ${
-                  isActive
-                    ? 'bg-white text-blue-600 rounded-l-2xl rounded-r-none w-full'
-                    : 'text-white/80 hover:bg-white/10 hover:text-white rounded-l-2xl rounded-r-none w-full'
-                }
-              `}
-            >
-              <item.icon
-                className={`h-5 w-5 shrink-0 transition-colors duration-200 ${
-                  isActive
-                    ? 'text-blue-600'
-                    : 'text-white/80 group-hover:text-white'
-                }`}
-                strokeWidth={isActive ? 2 : 1.5}
-              />
-
-              <span
-                className={`
-                  text-sm font-medium whitespace-nowrap
-                  transition-all duration-300 ease-in-out
-                  ${isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 w-auto'}
-                `}
-              >
-                {item.label}
-              </span>
-            </Link>
-          )
-        })}
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    title={isCollapsed ? item.label : undefined}
+                    className={`
+                      group flex items-center gap-3 px-3 py-2.5 rounded-lg
+                      transition-all duration-200 ease-in-out
+                      ${
+                        isActive
+                          ? 'bg-blue-50 text-blue-600'
+                          : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                      }
+                    `}
+                  >
+                    <item.icon
+                      className={`h-5 w-5 shrink-0 transition-colors duration-200 ${
+                        isActive
+                          ? 'text-blue-600'
+                          : 'text-slate-400 group-hover:text-slate-600'
+                      }`}
+                      strokeWidth={isActive ? 2 : 1.5}
+                    />
+                    <span
+                      className={`
+                        text-sm font-medium whitespace-nowrap
+                        transition-all duration-300 ease-in-out
+                        ${isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 w-auto'}
+                      `}
+                    >
+                      {item.label}
+                    </span>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* Logout */}
-      <div className="pb-6 pt-4 pl-4 pr-0">
+      <div className="p-4 border-t border-slate-100 shrink-0 bg-white">
         <form action={logout}>
           <button
             type="submit"
             title={isCollapsed ? 'Logout' : undefined}
             className="
-              w-full flex items-center gap-3 px-4 py-3
-              rounded-l-full rounded-r-none
-              text-white/80 hover:bg-white/10 hover:text-white
-              transition-all duration-200 ease-in-out
+              w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
+              text-slate-500 hover:bg-slate-50 hover:text-slate-900
+              transition-all duration-200 ease-in-out group
             "
           >
-            <LogOut className="h-5 w-5 shrink-0" strokeWidth={1.5} />
+            <LogOut className="h-5 w-5 shrink-0 text-slate-400 group-hover:text-slate-600" strokeWidth={1.5} />
             <span
               className={`
                 text-sm font-medium whitespace-nowrap

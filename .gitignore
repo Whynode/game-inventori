@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# workspace specific tooling & diffs
+/skills/
+/diff_inventory.txt
+/diff_inventory_utf8.txt
+
